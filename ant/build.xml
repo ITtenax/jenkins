@@ -1,0 +1,33 @@
+<project name="File Download" default="download" basedir=".">
+
+    <description>Test download file</description>
+
+    <property name="src" location="src" />
+    <property name="build" location="build" />
+    <property name="build_classes" location="${build}/classes" />
+    <property name="build_jar" location="${build}/jar" />
+
+    <target name="clean" description="clean">
+        <delete dir="${build}"/>
+    </target>
+
+    <target name="compile">
+        <mkdir dir="${build_classes}"/>
+        <javac srcdir="src" destdir="${build_classes}"/>
+    </target>
+
+    <target name="jar">
+        <mkdir dir="${build_jar}"/>
+        <jar destfile="${build_jar}/download.jar" basedir="${build_classes}">
+            <manifest>
+                <attribute name="Main-Class" value="main.com.ant.DownloadUtil"/>
+            </manifest>
+        </jar>
+        <exec dir="${build_jar}" executable="java">
+            <arg line="-cp download.jar main.com.ant.DownloadUtil"/>
+        </exec>
+    </target>
+
+    <target name="download" depends="clean, compile, jar"/>
+
+</project>
